@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+        </thead>
+        <tbody>
+            {% for sale_line in sale.get_sale_lines %}
+                <tr>
+                    <td>{{sale_line.product.name}}</td>
+                    <td>{{sale_line.product.category.name}}</td>
+                    <td>{{sale_line.product.price}}</td>
+                    <td>
+                        <a href="/sale/cart/?id={{sale_line.product.id}}&update=remove">-</a>
+                        {{sale_line.quantity}}
+                        <a href="/sale/cart/?id={{sale_line.product.id}}&update=add">+</a>
+                    </td>
+                    <td>{{sale_line.amount}}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><b>Total:</b> {{sale.update_total}}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
