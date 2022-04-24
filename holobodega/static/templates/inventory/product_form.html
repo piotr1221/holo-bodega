@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <html lang="es">
+  <link href='https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <link href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css' rel='stylesheet'type='text/css'>
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <div>
+    <h1>Categorías</h1> 
+    <div class="container container-center">
+      <div class="row">
+        <div class="col-8">
+          <form method="POST" action="">
+            <input name="name" class='form-control' id='name' placeholder='Nombre...' type='text'>
+            <select name="category" class='form-control' id='category'>
+              <option value="Pitbull">Pitbull</option>
+              <option value="Bulldog">Bulldog</option>
+              <option value="Shichu">Shichu</option>
+              <option value="Pequines">Pequines</option>
+              <option value="San Bernardo">San Bernardo</option>
+              <option value="Chiguahua">Chiguahua</option>
+            </select>
+            <input name="barcode" class='form-control' id='barcode' placeholder='Código de Barra...' type='text'>
+            <select name="producer" class='form-control' id='producer'>
+              <option value="Pitbull">Pitbull</option>
+              <option value="Bulldog">Bulldog</option>
+              <option value="Shichu">Shichu</option>
+              <option value="Pequines">Pequines</option>
+              <option value="San Bernardo">San Bernardo</option>
+              <option value="Chiguahua">Chiguahua</option>
+            </select>
+            <input name="stock" class='form-control' id='stock' type='number'>
+            <button type="submit" class="btn waves-effect waves-light">
+              Registrar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
