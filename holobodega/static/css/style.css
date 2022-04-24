@@ -7,7 +7,7 @@ body {
   padding: 0;
   font-family: 'Roboto', sans-serif;
   text-align: center;
-  background-image: url("../images/background.jpg");
+  background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d41e662e-afd5-41ae-aa1a-9389c294e861/df4839n-9114d37e-39fc-41a0-845e-1bf9dfe4bcbf.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2Q0MWU2NjJlLWFmZDUtNDFhZS1hYTFhLTkzODljMjk0ZTg2MVwvZGY0ODM5bi05MTE0ZDM3ZS0zOWZjLTQxYTAtODQ1ZS0xYmY5ZGZlNGJjYmYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.BoWPW8LK_jrI5oXxiNMDijSh1l_3iwj8rZnziyW5Ktc");
   background-attachment: fixed;
   background-size: cover;
 }
@@ -73,7 +73,7 @@ header a {
   margin-bottom: 2.5%;
 }
 
-th {
+/*th {
   text-align: center;
   background-color: #0098cb;
   color: #eee;
@@ -83,7 +83,7 @@ td {
   text-align: center;
   background-color: white;
 }
-
+*/
 .contenido {
   display: inline;
   font-weight: lighter;
@@ -93,4 +93,9 @@ td {
   font-weight: lighter;
   text-align: justify;
   padding-left: 35%;
+}
+
+h1{
+  font:bold;
+  font-size: 60px;
 }
