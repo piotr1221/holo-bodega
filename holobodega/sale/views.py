@@ -1,5 +1,6 @@
+from multiprocessing import context
 from xmlrpc.client import Boolean
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.db.models import *
 from sale.models import *
 
@@ -107,3 +108,10 @@ def debt(req):
         'debtors': debtors
     }
     return render(req, 'sale/debt.html', context)
+
+def debt_edit(req,id):
+    debtor=Debtor.objects.filter(id=id).first()
+    context={
+        'debtor':debtor
+    }
+    return render(req,'sale/debt-edit.html',context)
