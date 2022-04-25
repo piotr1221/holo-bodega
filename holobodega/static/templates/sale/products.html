@@ -22,7 +22,7 @@
             <a class="btn btn-primary" href="/sale/debt">Deudas</a>
             <a class="btn btn-primary " href="/sale/cart">Carrito</a>
           </div>
-          <form method="POST" action="" class="input-group mb-3">
+          <form method="GET" action="/sale/products/" class="input-group mb-3">
             {% csrf_token %}
             <input id="search_input" name="search_input" type="text" class="form-control" placeholder="Búsqueda de producto" aria-label="Búsqueda de producto" aria-describedby="button-addon2">
             <button class="btn btn-secondary" type="submit" id="search_button">Buscar</button>
@@ -32,7 +32,7 @@
                 <th>Nombre</th>
                 <th>Categoría</th>
                 <th>Precio</th>
-                <th>Cantidad</th>
+                <th>Opciones</th>
             </thead>
             <tbody>
                 {% for product in products %}
@@ -41,9 +41,11 @@
                         <td>{{product.category.name}}</td>
                         <td>S./ {{product.price}}</td>
                         <td class="d-flex justify-content-between">
-                            <a class="btn btn-secondary" href="/sale/products/?id={{product.id}}&update=remove">-</a>
-                            {{product.quantity}}
-                            <a class="btn btn-secondary" href="/sale/products/?id={{product.id}}&update=add">+</a>
+                            {% if product.in_current_sale %}
+                              -
+                            {% else %}
+                              <a class="btn btn-secondary" href="/sale/products/?id={{product.id}}&update=cart">Agregar</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

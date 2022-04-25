@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 from django.shortcuts import render
 from django.db.models import *
 from sale.models import *
@@ -6,7 +7,7 @@ from sale.models import *
 
 def products(req):
     category = req.GET.get('category', '')
-    name = req.GET.get('name', '')
+    name = req.GET.get('search_input', '')
     update = req.GET.get('update', '')
     id = req.GET.get('id', '')
 
@@ -17,21 +18,42 @@ def products(req):
     if name:
         products = products.filter(name__icontains=name)
     
-    products = products.all().annotate(quantity=Value(0, output_field=IntegerField()))
+    if update == 'cart':
+        add_to_cart(product_id=id)
 
-    sale = update_sale(req, product_id=id, update=update)
-
-    for product in products:
-        for line in sale.get_sale_lines():
-            if product.id == line.product.id:
-                product.quantity = line.quantity
+    sale = Sale.objects.filter(sold=False).first()
+    if sale is not None:
+        products = products.all().annotate(in_current_sale=Value(False, output_field=BooleanField()))
+    
+        for product in products:
+            for line in sale.get_sale_lines():
+                if product.id == line.product.id:
+                    product.in_current_sale = True
 
     context = {
         'products': products,
     }
     return render(req, 'sale/products.html', context)
 
-def update_sale(req, *, product_id, update):
+def add_to_cart(*, product_id):
+    sale = Sale.objects.filter(sold=False).first()
+    if sale is None:
+        sale = Sale.objects.create()
+
+    if not product_id:
+        return
+
+    product = Product.objects.get(id=product_id)
+    sale_line = SaleLine.objects.filter(sale=sale, product=product).first()
+
+    if sale_line is None:
+        sale_line = SaleLine.objects.create(
+                        product=product,
+                        sale=sale,
+                        amount=product.price
+                    )
+
+def update_sale(*, product_id, update):
     sale = Sale.objects.filter(sold=False).first()
     if sale is None:
         sale = Sale.objects.create()
@@ -46,6 +68,7 @@ def update_sale(req, *, product_id, update):
         sale_line = SaleLine.objects.create(
                         product=product,
                         sale=sale,
+                        amount=product.price
                     )
 
     if update == 'add':
@@ -53,7 +76,7 @@ def update_sale(req, *, product_id, update):
     elif update == 'remove':
         sale_line.remove()
 
-    if sale_line.quantity == 0:
+    if sale_line.quantity == 0 or update == 'delete':
         sale_line.delete()
 
     return sale
@@ -61,7 +84,7 @@ def update_sale(req, *, product_id, update):
 def cart(req):
     update = req.GET.get('update', '')
     id = req.GET.get('id', '')
-    sale = update_sale(req, product_id=id, update=update)
+    sale = update_sale(product_id=id, update=update)
     context = {
         'sale': sale
     }

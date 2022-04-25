@@ -35,6 +35,7 @@
                 <th>Precio</th>
                 <th>Cantidad</th>
                 <th>Subtotal</th>
+                <th>Opciones</th>
             </thead>
             <tbody>
                 {% for sale_line in sale.get_sale_lines %}
@@ -43,11 +44,12 @@
                         <td>{{sale_line.product.category.name}}</td>
                         <td>{{sale_line.product.price}}</td>
                         <td class="d-flex justify-content-between" >
-                            <a class="btn btn-secondary" href="/sale/cart/?id={{sale_line.product.id}}&update=remove">-</a>
+                            <a class="btn btn-danger" href="/sale/cart/?id={{sale_line.product.id}}&update=remove">-</a>
                             <p>{{sale_line.quantity}}</p>
-                            <a class="btn btn-secondary" href="/sale/cart/?id={{sale_line.product.id}}&update=add">+</a>
+                            <a class="btn btn-success" href="/sale/cart/?id={{sale_line.product.id}}&update=add">+</a>
                         </td>
                         <td>{{sale_line.amount}}</td>
+                        <td><a class="btn btn-secondary" href="/sale/cart/?id={{sale_line.product.id}}&update=delete">X</a></td>
                     </tr>
                 {% endfor %}
                 <tr>
@@ -56,6 +58,14 @@
                     <td></td>
                     <td></td>
                     <td><b>Total:</b> {{sale.update_total}}</td>
+                    <td>
+                      <form method="POST" action="/sale/sell/" class="input-group mb-3">
+                        {% csrf_token %}
+                        <input id="sale_id" name="sale_id" type="text" value={{sale.id}} hidden>
+                        <button class="btn btn-primary" type="submit" id="search_button">Buscar</button>
+                      </form>
+                    </td>
+                    <!-- <td><a class="btn btn-primary" href="/sale/cart/?id={{sale_line.product.id}}&update=delete">Comprar</a></td> -->
                 </tr>
             </tbody>
           </table>

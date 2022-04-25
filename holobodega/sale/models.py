@@ -4,7 +4,7 @@ from inventory.models import Product
 
 class Sale(models.Model):
     time = models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(max_digits=5, decimal_places=2, null=True, default=0)
+    total = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     products = models.ManyToManyField(Product, through='SaleLine')
     sold = models.BooleanField(default=False)
 
@@ -35,8 +35,8 @@ class Sale(models.Model):
 class SaleLine(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     sale = models.ForeignKey(Sale, on_delete=models.PROTECT)
-    amount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    quantity = models.IntegerField(default=0)
+    amount = models.DecimalField(max_digits=5, decimal_places=2)
+    quantity = models.IntegerField(default=1)
 
     def __str__(self) -> str:
         return f'{self.product} * {self.quantity} = {self.amount}'
