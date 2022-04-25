@@ -25,9 +25,9 @@
       {% if messages %}
         {% for message in messages %}
           <div class="alert alert-warning" role="alert">
-          {{message}}
-          {% endfor %}
+            {{message}}
           </div>
+        {% endfor %}
       {% endif %}
       <div class="row">
         <div class="col-8 offset-2">
@@ -57,6 +57,8 @@
                         <td class="d-flex justify-content-center">
                             {% if product.in_current_sale %}
                               -
+                            {% elif product.stock <= 0 %}
+                              Sin stock
                             {% else %}
                               <a class="btn btn-secondary" href="/sale/products/?id={{product.id}}&update=cart">Agregar</a>
                             {% endif %}

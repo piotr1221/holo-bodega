@@ -4,6 +4,7 @@ from django.db.models import *
 from inventory.forms import *
 from inventory.models import *
 from django.shortcuts import redirect, render
+from django.contrib import messages
 
 # Create your views here.
 
@@ -64,6 +65,9 @@ def products (req):
   context ={
     'products':products
   }
+  for product in products:
+    if (product.stock <= 5):
+            messages.warning(req, f'Quedan {product.stock} unidades del producto {product.name}')
   return render(req, 'inventory/products.html',context)
 
 def search_product(req):

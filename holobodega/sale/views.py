@@ -107,7 +107,7 @@ def decrease_stock(req, sale):
     for sale_line in sale.get_sale_lines():
         sale_line.product.stock -= sale_line.quantity
         sale_line.product.save()
-        if (sale_line.product.stock <= 5 and sale_line.product.stock > 0):
+        if (sale_line.product.stock <= 5):
             messages.warning(req, f'Quedan {sale_line.product.stock} unidades del producto {sale_line.product.name}')
 
 def debt(req):
