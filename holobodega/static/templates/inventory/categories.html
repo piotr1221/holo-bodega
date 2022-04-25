@@ -32,7 +32,7 @@
           </div>
           <form method="POST" action="{% url 'search_category' %}" class="input-group mb-3">
             {% csrf_token %}
-            <input id="search_input" name="search_input" type="text" class="form-control" placeholder="Búsqueda de producto" aria-label="Búsqueda de producto" aria-describedby="button-addon2">
+            <input id="search_input" name="search_input" type="text" class="form-control" placeholder="Búsqueda de categoría" aria-label="Búsqueda de producto" aria-describedby="button-addon2">
             <button class="btn btn-secondary" type="submit" id="search_button">Buscar</button>
           </form>
           <table class="table table-primary">
