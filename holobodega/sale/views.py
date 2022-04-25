@@ -100,3 +100,10 @@ def sell(req):
 
     return redirect('/sale/products')
 
+def debt(req):
+    debtors = Debtor.objects.all()
+
+    context = {
+        'debtors': debtors
+    }
+    return render(req, 'sale/debt.html', context)
