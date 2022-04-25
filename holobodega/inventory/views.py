@@ -1,8 +1,10 @@
 from multiprocessing import context
 from django.shortcuts import redirect, render,get_object_or_404
 from django.db.models import *
-from inventory.forms import NewProductForm
+from inventory.forms import *
 from inventory.models import *
+from django.shortcuts import redirect, render
+
 # Create your views here.
 
 def new_product(request):
@@ -72,3 +74,19 @@ def search_product(req):
     'products':products
   }
   return render(req,'inventory/products.html',context)
+
+def new_category(request):
+    if request.method == 'POST':
+        form = NewCategoryForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            Category.objects.create(name=name)
+            return redirect("")
+    else:
+        form = NewCategoryForm()
+    
+    context = {
+        'form': form
+    }
+
+    return render(request, 'inventory/category_form.html', context)

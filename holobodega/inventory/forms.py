@@ -17,3 +17,7 @@ class NewProductForm(forms.ModelForm):
 
 class NewCategoryForm(forms.ModelForm):
   name = forms.CharField(max_length=50)
+  
+  class Meta:
+    model = Category
+    fields = ('name',)
