@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.db.models import *
 from sale.models import *
 import decimal
+import datetime
 
 # Create your views here.
 
@@ -152,9 +153,31 @@ def add_payment_to_debtor(req):
     debtor.pay_debt(payment)
     return redirect('/sale/debt/')
 
-def debt_edit(req,id):
+def debt_edit(req, id):
     debtor=Debtor.objects.filter(id=id).first()
-    context={
+    context = {
         'debtor':debtor
     }
-    return render(req,'sale/debt-edit.html',context)
+    return render(req, 'sale/debt-edit.html', context)
+
+def cash(req):
+    sales = Sale.objects.filter(time__range=(
+        datetime.datetime.combine(datetime.date.today(), datetime.time(00, 00, 00)),
+        datetime.datetime.combine(datetime.date.today(), datetime.time(23, 59, 59))
+    ))
+    for sale in sales:
+        sale.time += datetime.timedelta(hours=-5)
+        sale.time = sale.time.strftime("%H:%M %p")
+
+    context = {
+        'sales': sales,
+        'total': sum([sale.total for sale in sales])
+    }
+    return render(req, 'sale/sales.html', context)
+
+def sale_detail(req):
+    sale = Sale.objects.filter(id=req.GET.get('sale', '')).first()
+    context = {
+        'sale': sale
+    }
+    return render(req, 'sale/sale-detail.html', context)

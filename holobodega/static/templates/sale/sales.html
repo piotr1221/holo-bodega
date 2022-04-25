@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table class="table table-primary">
+        <h1>Venta del día: {{total}}</h1>
+        <thead>
+            <th>Hora</th>
+            <th>Total</th>
+            <th>Opciones</th>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+                <tr>
+                    <td>{{sale.time}}</td>
+                    <td>{{sale.total}}</td>
+                    <td><a href="/sale/cash/detail/?sale={{sale.id}}">Ver detalle</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
