@@ -97,7 +97,6 @@ def sell(req):
     sale = Sale.objects.filter(id=req.POST.get('sale_id')).first()
     sale.sold = True
     sale.save()
-
     return redirect('/sale/products')
 
 def debt(req):
@@ -107,3 +106,29 @@ def debt(req):
         'debtors': debtors
     }
     return render(req, 'sale/debt.html', context)
+
+def create_debtor(req):
+    name = 'ra'
+    Debtor.objects.create(name=name)
+    return redirect('/sale/debt')
+
+def add_debt_to_debtor(req):
+    id = 1
+    debtor = Debtor.objects.filter(id=id).first()
+    sale = Sale.objects.filter(sold=False).first()
+    debt_sale = DebtSale.objects.create(
+        sale=sale,
+        debtor=debtor,
+        debt_amount=sale.total
+    )
+    sale.sold = True
+    sale.save(debt_sale)
+    
+    debtor.add_debt(debt_sale)
+    return redirect('/sale/debt')
+
+def add_payment_to_debtor(req):
+    payment = 1
+    id = 1
+    debtor = Debtor.objects.filter(id=id).first()
+    debtor.pay_debt(payment)

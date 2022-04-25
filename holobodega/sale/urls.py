@@ -5,4 +5,5 @@ urlpatterns = [
     path('products/', products),
     path('cart/', cart),
     path('sell/', sell),
+    path('debt', debt),
 ]

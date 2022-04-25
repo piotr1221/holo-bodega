@@ -18,12 +18,7 @@ class Sale(models.Model):
         sale_lines = SaleLine.objects.filter(sale=self).all()
         if not sale_lines:
             self.total = 0
-        else :
-            a = [
-                sale_line.amount
-                for sale_line
-                in sale_lines
-            ]
+        else:
             self.total = sum([
                 sale_line.amount
                 for sale_line
@@ -56,7 +51,28 @@ class SaleLine(models.Model):
 
 class Debtor(models.Model):
     name = models.CharField(max_length=50)
-    total_debt = models.DecimalField(max_digits=5, decimal_places=2)
+    total_debt = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    # def update_debt(self):
+    #     debt_sales = DebtSale.objects.filter(debtor=self).all()
+    #     if not debt_sales:
+    #         self.total = 0
+    #     else:
+    #         self.total = sum([
+    #             debt_sale.debt_amount
+    #             for debt_sale
+    #             in debt_sales
+    #         ])
+    #     self.save()
+
+    def add_debt(self, debt_sale):
+        self.total_debt += debt_sale.debt_amount
+        self.save()
+
+    def pay_debt(self, payment):
+        if self.total_debt - payment >= 0:
+            self.total_debt -= payment
+            self.save()
 
 class DebtSale(models.Model):
     sale = models.ForeignKey(Sale, on_delete=models.PROTECT)
