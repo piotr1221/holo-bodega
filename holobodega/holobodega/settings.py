@@ -32,7 +32,7 @@ STATICFILES_DIRS = [
 SECRET_KEY = 'django-insecure-s@z6!-yf+!s-n8w1hi0%l3cw&pkirmoast%+*bnf91c@g9=o8f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -84,10 +84,21 @@ WSGI_APPLICATION = 'holobodega.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hxeowvwv', 
+        'USER': 'hxeowvwv', 
+        'PASSWORD': 'jMVHvYwjier8-skJxeP0CivkeY7Xy0u8',
+        'HOST': 'kesavan.db.elephantsql.com', 
+        'PORT': '5432',
     }
 }
 
