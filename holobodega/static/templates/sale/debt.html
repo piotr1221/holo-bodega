@@ -53,10 +53,16 @@
                             <form method="POST" action="/sale/debt/add-debt/" class="input-group mb-3">
                             {% csrf_token %}
                             <input name="debtor" value="{{debtor.id}}" hidden>
-                            
-                              <button class="btn btn-primary mx-auto mt-2" type="submit">
-                                Registrar deuda
-                              </button>
+                              
+                              {% if cart_present %} 
+                                <button class="btn btn-primary mx-auto mt-2" type="submit">
+                                  Registrar deuda
+                                </button>
+                              {% else %}
+                                <button class="btn btn-primary mx-auto mt-2" type="submit" disabled>
+                                  Registrar deuda
+                                </button>
+                              {% endif %}
                           </form>
                         </td>
                     </tr>

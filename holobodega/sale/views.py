@@ -119,8 +119,15 @@ def debt(req):
     else:
         debtors = debtors.all()
 
+    sale = Sale.objects.filter(sold=False).first()
+    if sale is not None:
+        cart_present = True
+    else:
+        cart_present = False
+
     context = {
-        'debtors': debtors
+        'debtors': debtors,
+        'cart_present': cart_present
     }
     return render(req, 'sale/debt.html', context)
 
