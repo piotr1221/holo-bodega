@@ -23,10 +23,11 @@
             <a class="btn btn-primary disabled" href="/inventory/category">Categorías</a>
             <a class="btn btn-primary" style="margin-left: auto;" href="/inventory/new_category">Nueva Categoría</a>
           </div>
-          <div class="input-group mb-3">
-            <input id="search_input" type="text" class="form-control" placeholder="Búsqueda de categorías" aria-label="Búsqueda de producto" aria-describedby="button-addon2">
-            <button class="btn btn-secondary" type="button" id="search_button">Buscar</button>
-          </div>
+          <form method="POST" action="{% url 'search_category' %}" class="input-group mb-3">
+            {% csrf_token %}
+            <input id="search_input" name="search_input" type="text" class="form-control" placeholder="Búsqueda de producto" aria-label="Búsqueda de producto" aria-describedby="button-addon2">
+            <button class="btn btn-secondary" type="submit" id="search_button">Buscar</button>
+          </form>
           <table class="table table-primary">
             <thead>
               <tr>
@@ -35,19 +36,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Mark</td>
-                <td>
-                  <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    Opciones
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="#">Editar</a></li>
-                    <li><a class="dropdown-item" href="#">Eliminar</a></li>
-                  </ul>
-                </div></td>
-              </tr>
+              {% for category in categories %}
+                <tr>
+                  <td>{{category.name}}</td>
+                  <td>
+                    <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      Opciones
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                    </ul>
+                  </div></td>
+                </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
