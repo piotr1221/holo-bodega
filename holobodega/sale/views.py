@@ -171,7 +171,7 @@ def cash(req):
     sales = Sale.objects.filter(time__range=(
         datetime.datetime.combine(datetime.date.today(), datetime.time(00, 00, 00)),
         datetime.datetime.combine(datetime.date.today(), datetime.time(23, 59, 59))
-    ))
+    ), sold=True)
     for sale in sales:
         sale.time += datetime.timedelta(hours=-5)
         sale.time = sale.time.strftime("%H:%M %p")
