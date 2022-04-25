@@ -26,9 +26,9 @@
       <div class="row">
         <div class="col-8 offset-2">
           <div class="d-flex">
-            <a class="btn btn-primary" href="/inventory/product">Productos</a>
-            <a class="btn btn-primary disabled" href="/inventory/category">Categorías</a>
-            <a class="btn btn-primary" style="margin-left: auto;" href="/inventory/new_category">Nueva Categoría</a>
+            <a class="btn btn-primary" href="/inventory/product/">Productos</a>
+            <a class="btn btn-primary disabled" href="/inventory/category/">Categorías</a>
+            <a class="btn btn-primary" style="margin-left: auto;" href="/inventory/new_category/">Nueva Categoría</a>
           </div>
           <form method="POST" action="{% url 'search_category' %}" class="input-group mb-3">
             {% csrf_token %}

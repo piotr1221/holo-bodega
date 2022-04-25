@@ -52,7 +52,9 @@
                         <td class="d-flex justify-content-between" >
                             <a class="btn btn-danger" href="/sale/cart/?id={{sale_line.product.id}}&update=remove">-</a>
                             <p>{{sale_line.quantity}}</p>
-                            <a class="btn btn-success" href="/sale/cart/?id={{sale_line.product.id}}&update=add">+</a>
+                            {% if sale_line.product.stock > sale_line.quantity %}
+                              <a class="btn btn-success" href="/sale/cart/?id={{sale_line.product.id}}&update=add">+</a>
+                            {% endif %}
                         </td>
                         <td>{{sale_line.amount}}</td>
                         <td><a class="btn btn-secondary" href="/sale/cart/?id={{sale_line.product.id}}&update=delete">X</a></td>

@@ -1,6 +1,7 @@
 from multiprocessing import context
 from xmlrpc.client import Boolean
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.db.models import *
 from sale.models import *
 import decimal
@@ -99,7 +100,15 @@ def sell(req):
     sale = Sale.objects.filter(id=req.POST.get('sale_id')).first()
     sale.sold = True
     sale.save()
-    return redirect('/sale/products')
+    decrease_stock(req, sale)
+    return redirect('/sale/products/')
+
+def decrease_stock(req, sale):
+    for sale_line in sale.get_sale_lines():
+        sale_line.product.stock -= sale_line.quantity
+        sale_line.product.save()
+        if (sale_line.product.stock <= 5 and sale_line.product.stock > 0):
+            messages.warning(req, f'Quedan {sale_line.product.stock} unidades del producto {sale_line.product.name}')
 
 def debt(req):
     name = req.GET.get('search_input', '')
@@ -133,6 +142,7 @@ def add_debt_to_debtor(req):
     sale.save()
     
     debtor.add_debt(debt_sale)
+    decrease_stock(req, sale)
     return redirect('/sale/debt/')
 
 def add_payment_to_debtor(req):
