@@ -5,5 +5,6 @@ urlpatterns = [
     path('products/', products),
     path('cart/', cart),
     path('sell/', sell),
-    path('debt', debt),
+    path('debt/', debt),
+    path('debt/edit/<id>',debt_edit,name="debt_edit")
 ]

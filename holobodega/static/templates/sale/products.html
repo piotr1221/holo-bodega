@@ -39,7 +39,7 @@
                         <td>{{product.name}}</td>
                         <td>{{product.category.name}}</td>
                         <td>S./ {{product.price}}</td>
-                        <td class="d-flex justify-content-between">
+                        <td class="d-flex justify-content-center">
                             {% if product.in_current_sale %}
                               -
                             {% else %}
@@ -48,6 +48,7 @@
                         </td>
                     </tr>
                 {% endfor %}
+                
             </tbody>
           </table>
         </div>
