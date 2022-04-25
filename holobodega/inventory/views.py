@@ -5,6 +5,7 @@ from inventory.forms import *
 from inventory.models import *
 from django.shortcuts import redirect, render
 from django.contrib import messages
+import decimal
 
 # Create your views here.
 
@@ -78,6 +79,20 @@ def search_product(req):
     'products':products
   }
   return render(req,'inventory/products.html',context)
+
+def add_stock_to_product(req,id):
+    add_stock = decimal.Decimal(req.POST.get('add-stock'))
+    print(add_stock)
+    product = Product.objects.filter(id=id).first()
+    product.add_stock(add_stock)
+    return redirect('/inventory/product/')
+
+def add_stock(req,id):
+  product=Product.objects.filter(id=id).first()
+  context={
+    'product':product,
+  }
+  return render(req,'inventory/add_stock.html',context)
 
 def new_category(request):
     if request.method == 'POST':

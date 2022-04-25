@@ -20,5 +20,9 @@ class Product(models.Model):
     def __str__(self) -> str:
         return f'{self.name} {self.category.name} {self.price}'
 
+    def add_stock(self,add_stock):
+        self.stock= self.stock+ add_stock
+        self.save()
+        return
     # def get_sale_line_quantity_from_order(self, order):
     #     return SaleLine.objects.filter(product=self, order=order).first().quantity
