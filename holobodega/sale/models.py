@@ -53,18 +53,6 @@ class Debtor(models.Model):
     name = models.CharField(max_length=50)
     total_debt = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
-    # def update_debt(self):
-    #     debt_sales = DebtSale.objects.filter(debtor=self).all()
-    #     if not debt_sales:
-    #         self.total = 0
-    #     else:
-    #         self.total = sum([
-    #             debt_sale.debt_amount
-    #             for debt_sale
-    #             in debt_sales
-    #         ])
-    #     self.save()
-
     def add_debt(self, debt_sale):
         self.total_debt += debt_sale.debt_amount
         self.save()

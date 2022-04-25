@@ -21,9 +21,9 @@
             <a class="btn btn-primary" href="/sale/debt">Deudas</a>
             <a class="btn btn-primary " href="/sale/cart">Carrito</a>
           </div>
-          <form method="GET" action="/sale/products/" class="input-group mb-3">
+          <form method="GET" action="/sale/debt/" class="input-group mb-3">
             {% csrf_token %}
-            <input id="search_input" name="search_input" type="text" class="form-control" placeholder="Búsqueda de producto" aria-label="Búsqueda de producto" aria-describedby="button-addon2">
+            <input id="search_input" name="search_input" type="text" class="form-control" placeholder="Búsqueda de deudor" aria-label="Búsqueda de deudor" aria-describedby="button-addon2">
             <button class="btn btn-secondary" type="submit" id="search_button">Buscar</button>
           </form>
           <table class="table table-primary">
@@ -33,12 +33,24 @@
                 <th>Opciones</th>
             </thead>
             <tbody>
-              <form class="form-check" action="">
                 {% for debtor in debtors %}
                     <tr>
                         <td>{{debtor.name}}</td>
-                        <td>S/{{debtor.total_debt}}</td>
-                        <td><a class="btn btn-primary" id="debt-edit-button" href="{% url 'debt_edit' debtor.id %}">Editar</a></td>
+                        <td>S/ {{debtor.total_debt}}</td>
+                        <td>
+                          {% if debtor.total_debt > 0 %}
+                            <a class="btn btn-primary" id="debt-edit-button" href="{% url 'debt_edit' debtor.id %}">Abonar</a>
+                          {% else %}
+                          <a class="btn btn-secondary" id="debt-edit-button" disabled>Abonar</a>
+                          {% endif %}
+                            <form method="POST" action="/sale/debt/add-debt/" class="input-group mb-3">
+                            {% csrf_token %}
+                            <input name="debtor" value="{{debtor.id}}" hidden>
+                              <button class="btn btn-primary" type="submit">
+                                Registrar deuda
+                              </button>
+                          </form>
+                        </td>
                     </tr>
                 {% endfor %}
                 <tr>
@@ -56,7 +68,6 @@
                     </form>
                   </td>
               </tr>
-              </form>
             </tbody>
           </table>
           <!--Modal Registro de Deudor-->
@@ -67,11 +78,12 @@
                   <h5 class="modal-title">Crear Deudor</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>  
-                  <form method="POST" action="">
+                  <form method="POST" action="/sale/debt/create-debtor">
+                    {% csrf_token %}
                     <div class="modal-body">
                     <div class="mb-3">
                       <label for="debtor-name" class="form-label">Nombre del deudor</label>
-                      <input type="text" class="form-control" id="debtor-name" placeholder="Nombre del deudor" />
+                      <input name="debtor-name" type="text" class="form-control" id="debtor-name" placeholder="Nombre del deudor" />
                     </div>
                   </div>
                   <div class="modal-footer">

@@ -3,6 +3,7 @@ from xmlrpc.client import Boolean
 from django.shortcuts import render, redirect,get_object_or_404
 from django.db.models import *
 from sale.models import *
+import decimal
 
 # Create your views here.
 
@@ -101,7 +102,12 @@ def sell(req):
     return redirect('/sale/products')
 
 def debt(req):
-    debtors = Debtor.objects.all()
+    name = req.GET.get('search_input', '')
+    debtors = Debtor.objects
+    if name:
+        debtors = debtors.filter(name__icontains=name)
+    else:
+        debtors = debtors.all()
 
     context = {
         'debtors': debtors
@@ -109,30 +115,33 @@ def debt(req):
     return render(req, 'sale/debt.html', context)
 
 def create_debtor(req):
-    name = 'ra'
+    name = req.POST.get('debtor-name', '')
     Debtor.objects.create(name=name)
     return redirect('/sale/debt')
 
 def add_debt_to_debtor(req):
-    id = 1
+    id = req.POST.get('debtor', '')
+    
     debtor = Debtor.objects.filter(id=id).first()
     sale = Sale.objects.filter(sold=False).first()
     debt_sale = DebtSale.objects.create(
         sale=sale,
         debtor=debtor,
-        debt_amount=sale.total
+        debt_amount=sale.update_total()
     )
     sale.sold = True
-    sale.save(debt_sale)
+    sale.save()
     
     debtor.add_debt(debt_sale)
     return redirect('/sale/debt')
 
 def add_payment_to_debtor(req):
-    payment = 1
-    id = 1
+    id = req.POST.get('debtor', '')
+    payment = decimal.Decimal(req.POST.get('payment', ''))
     debtor = Debtor.objects.filter(id=id).first()
     debtor.pay_debt(payment)
+    return redirect('/sale/debt/')
+
 def debt_edit(req,id):
     debtor=Debtor.objects.filter(id=id).first()
     context={
