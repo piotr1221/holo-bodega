@@ -117,7 +117,7 @@ def debt(req):
 def create_debtor(req):
     name = req.POST.get('debtor-name', '')
     Debtor.objects.create(name=name)
-    return redirect('/sale/debt')
+    return redirect('debt')
 
 def add_debt_to_debtor(req):
     id = req.POST.get('debtor', '')
@@ -133,7 +133,7 @@ def add_debt_to_debtor(req):
     sale.save()
     
     debtor.add_debt(debt_sale)
-    return redirect('/sale/debt')
+    return redirect('/sale/debt/')
 
 def add_payment_to_debtor(req):
     id = req.POST.get('debtor', '')

@@ -18,7 +18,7 @@ def new_product(request):
             stock = form.cleaned_data.get('stock')
             price = form.cleaned_data.get('price')
             Product.objects.create(name=name, producer=producer, barcode=barcode, category=category, stock=stock, price=price)
-            return redirect("")
+            return redirect("/inventory/product/")
     else:
         form = NewProductForm()
 
@@ -81,7 +81,7 @@ def new_category(request):
         if form.is_valid():
             name = form.cleaned_data.get('name')
             Category.objects.create(name=name)
-            return redirect("")
+            return redirect("/inventory/category/")
     else:
         form = NewCategoryForm()
     

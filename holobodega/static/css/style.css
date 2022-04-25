@@ -13,16 +13,6 @@ body {
 }
 
 /* Header */
-header {
-  background-image: none;
-  background-color: #0098cb;
-  border-bottom: 2px solid #eee;
-  padding: 20px 0;
-  margin-bottom: 10px;
-  width: 100%;
-  text-align: center;
-}
-
 h5 {
   font-weight: bolder;
 }
