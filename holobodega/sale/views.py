@@ -1,5 +1,5 @@
 from xmlrpc.client import Boolean
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import *
 from sale.models import *
 
@@ -21,15 +21,18 @@ def products(req):
     if update == 'cart':
         add_to_cart(product_id=id)
 
+    products = products.all()
     sale = Sale.objects.filter(sold=False).first()
+
     if sale is not None:
-        products = products.all().annotate(in_current_sale=Value(False, output_field=BooleanField()))
+        products = products.annotate(in_current_sale=Value(False, output_field=BooleanField()))
     
         for product in products:
             for line in sale.get_sale_lines():
                 if product.id == line.product.id:
                     product.in_current_sale = True
 
+    
     context = {
         'products': products,
     }
@@ -89,3 +92,11 @@ def cart(req):
         'sale': sale
     }
     return render(req, 'sale/cart.html', context)
+
+def sell(req):
+    sale = Sale.objects.filter(id=req.POST.get('sale_id')).first()
+    sale.sold = True
+    sale.save()
+
+    return redirect('/sale/products')
+
