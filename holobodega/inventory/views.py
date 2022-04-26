@@ -83,7 +83,7 @@ def search_product(req):
 def add_stock_to_product(req,id):
     add_stock = decimal.Decimal(req.POST.get('add-stock'))
     print(add_stock)
-    product = Product.objects.filter(id=id).first()
+    product = Product.objects.get(id=id)
     product.add_stock(add_stock)
     return redirect('/inventory/product/')
 
