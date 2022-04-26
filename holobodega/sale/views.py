@@ -125,9 +125,11 @@ def debt(req):
     else:
         cart_present = False
 
+    suma = sum([debtor.total_debt for debtor in debtors])
     context = {
         'debtors': debtors,
-        'cart_present': cart_present
+        'cart_present': cart_present,
+        'suma': suma
     }
     return render(req, 'sale/debt.html', context)
 
